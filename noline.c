@@ -58,8 +58,21 @@ int input_is_valid(int x, int y) {
 	}
 }
 
-void print_usage(void) {
-	printf("Usage: noline dim [playerXtype [playerOtype [Oin Oout Xin Xout]]]\n");
+void print_err(int exit_status) {
+	switch(exit_status) {
+		case 1:
+			printf("Usage: noline dim [playerXtype [playerOtype [Oin Oout Xin Xout]]]\n");
+			break;
+		case 2:
+			printf("Invalid board dimension.\n");
+			break;
+		case 3:
+			printf("Invalid player type.\n");
+			break;
+		case 4:
+			printf("Invalid files\n");
+			break;
+	}
 }
 
 /*Main*/
@@ -80,7 +93,7 @@ int main(int argc, const char* argv[] ) {
 	
 	/*If no Args specified*/
 	if (argc < 2) {
-		print_usage();
+		print_err(1);
 		return 0;
 	}
 	
