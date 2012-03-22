@@ -58,36 +58,54 @@ int input_is_valid(int x, int y) {
 	}
 }
 
+void print_usage(void) {
+	printf("Usage: noline dim [playerXtype [playerOtype [Oin Oout Xin Xout]]]\n");
+}
+
 /*Main*/
 
 int main(int argc, const char* argv[] ) {
 	int nbytes = 100;
 	
+	/*Command-line Arguments*/
+	
+	int dim; /*Denotes Side-length of Grid*/
+	
+	/*----------------------*/
+	
 	char *input;
 	int x, y;
 	int args_assigned;
 	
-	setup_board();
-	print_board();
 	
-	/*Main Game Loop*/
-	while (1) {
+	/*If no Args specified*/
+	if (argc < 2) {
+		print_usage();
+		return 0;
+	}
 	
-		while (args_assigned != 2){
-			input = (char *) malloc (nbytes + 1);
-			getline (&input, &nbytes, stdin);
-			args_assigned = sscanf (input, "%d %d", &x, &y);
-		}
+	else {
+		
+		setup_board();
+		print_board();
+	
+		/*Main Game Loop*/
+		while (1) {
+		
+			while (args_assigned != 2){
+				input = (char *) malloc (nbytes + 1);
+				getline(&input, &nbytes, stdin);
+				args_assigned = sscanf (input, "%d %d", &x, &y);
+			}
 				
-		if (board[x][y] != '0' && board[x][y] != 'X') {
-			/*Validate Input*/
-			if (input_is_valid(x,y) == 1){
-				insert_number(get_char(), x, y);
-				print_board();
-				turn++;
+			if (board[x][y] != '0' && board[x][y] != 'X') {
+				/*Validate Input*/
+				if (input_is_valid(x,y) == 1){
+					insert_number(get_char(), x, y);
+					print_board();
+					turn++;
+				}
 			}
 		}
 	}
-	
-
 }
