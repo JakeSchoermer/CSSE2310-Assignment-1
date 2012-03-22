@@ -38,10 +38,20 @@ void insert_number(char ch, int x, int y) {
 
 char get_char(void) {
 	if (turn%2==1) {
-		return 'O';
+		return '0';
 	}
 	else {
 		return 'X';
+	}
+}
+
+//Returns 1 if unput is valid, else returns 0
+int input_is_valid(int x, int y)
+	if (x < board_x && x > 0 &&
+		y <board_y && y > 0) {
+		return 1
+	}else {
+		return 0
 	}
 }
 
@@ -57,10 +67,16 @@ int main(int argc, const char* argv[] ) {
 	while (1) {
 		scanf("%d %d", &x, &y); //Get User Input
 		
+		if (board[x][y] != '0' && board[x][y] != 'X') {
+			insert_number(get_char(), x, y);
+			
+			turn++;
+		}
+		else {
+			printf("\n");
+		}
 
-		insert_number(get_char(), x, y);
 		
 		print_board();
-		turn++;
 	}
 }
