@@ -1,10 +1,13 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
 #include"noline.h"
 
 char board[board_x][board_y];
-int turn = 1; //Keeps track of which turn it is;
+int turn = 1; /*Keeps track of which turn it is;*/
 
-//Board Related Functions
+
+/*Board Related Functions*/
 
 void setup_board(void) {
 	int x,y;
@@ -29,7 +32,7 @@ void print_board(void) {
 
 void insert_number(char ch, int x, int y) {
 	if (x > board_x || y > board_y) {
-		//Do Nothing
+		/*Do Nothing*/
 	}
 	else {
 		board[x][y] = ch;	
@@ -45,38 +48,46 @@ char get_char(void) {
 	}
 }
 
-//Returns 1 if unput is valid, else returns 0
-int input_is_valid(int x, int y)
-	if (x < board_x && x > 0 &&
-		y <board_y && y > 0) {
-		return 1
+/*Returns 1 if input is valid, else returns 0*/
+int input_is_valid(int x, int y) {
+	/*Checks that values are within scope for the board size*/	
+	if ((x < board_x) && (x >= 0) &&	(y < board_y) && (y >= 0)) {
+		return 1;
 	}else {
-		return 0
+		return 0;
 	}
 }
 
-//Main
+/*Main*/
 
 int main(int argc, const char* argv[] ) {
+	int nbytes = 100;
+	
+	char *input;
 	int x, y;
-
+	int args_assigned;
+	
 	setup_board();
 	print_board();
 	
-	//Main Game Loop
+	/*Main Game Loop*/
 	while (1) {
-		scanf("%d %d", &x, &y); //Get User Input
-		
+	
+		while (args_assigned != 2){
+			input = (char *) malloc (nbytes + 1);
+			getline (&input, &nbytes, stdin);
+			args_assigned = sscanf (input, "%d %d", &x, &y);
+		}
+				
 		if (board[x][y] != '0' && board[x][y] != 'X') {
-			insert_number(get_char(), x, y);
-			
-			turn++;
+			/*Validate Input*/
+			if (input_is_valid(x,y) == 1){
+				insert_number(get_char(), x, y);
+				print_board();
+				turn++;
+			}
 		}
-		else {
-			printf("\n");
-		}
-
-		
-		print_board();
 	}
+	
+
 }
