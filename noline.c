@@ -3,7 +3,7 @@
 #include<ctype.h>
 #include"noline.h"
 
-char board[board_x][board_y];
+char board[100][100];
 int turn = 1; /*Keeps track of which turn it is;*/
 
 
@@ -18,10 +18,12 @@ char* Xin = "-";
 char* Xout = "-";
 
 
-void setup_board(void) {
+void setup_board(int dim) {
+	
+
 	int x,y;
-	for (x=0; x<board_x; x++) {
-		for (y=0; y<board_y; y++) {
+	for (x=0; x<dim; x++) {
+		for (y=0; y<dim; y++) {
 			board[x][y] = '.';
 		}
 	}
@@ -29,19 +31,26 @@ void setup_board(void) {
 
 
 void print_board(void) {
-	int x,y;
-	printf("-----\n");
-	for (x=0; x<board_x; x++) {
-		for(y=0; y<board_y; y++) {
+	int i,x,y;
+	
+	
+	for (i=0;i<dim;i++)
+		printf("-");
+	printf("\n");
+	
+	for (x=0; x<dim; x++) {
+		for(y=0; y<dim; y++) {
 			printf("%c", board[x][y]);
 		}
 		printf("\n");
 	}
-	printf("=====\n");
+	for (i=0;i<dim;i++)
+		printf("=");
+	printf("\n");
 }
 
 void insert_number(char ch, int x, int y) {
-	if (x > board_x || y > board_y) {
+	if (x > dim || y > dim) {
 		/*Do Nothing*/
 	}
 	else {
@@ -61,7 +70,7 @@ char get_char(void) {
 /*Returns 1 if input is valid, else returns 0*/
 int board_input_is_valid(int x, int y) {
 	/*Checks that values are within scope for the board size*/	
-	if ((x < board_x) && (x >= 0) &&(y < board_y) && (y >= 0)) {
+	if ((x < dim) && (x >= 0) &&(y < dim) && (y >= 0)) {
 		return 1;
 	}else {
 		return 0;
@@ -136,9 +145,6 @@ void cmd_in(int argc, const char* argv[]) {
 
 int main(int argc, const char* argv[] ) {
 	int nbytes = 100;
-	
-
-	
 	/*----------------------*/
 	
 	char *input;
@@ -153,19 +159,18 @@ int main(int argc, const char* argv[] ) {
 	
 	else {
 		
-		cmd_in(argc, argv);	
-		setup_board();
+		cmd_in(argc, argv);			
+		setup_board(dim);
 		print_board();
-	
+		
 		/*Main Game Loop*/
 		while (1) {
-		
 			while (args_assigned != 2){
 				input = (char *) malloc (nbytes + 1);
 				getline(&input, &nbytes, stdin);
 				args_assigned = sscanf (input, "%d %d", &x, &y);
 			}
-				
+			
 			if (board[x][y] != '0' && board[x][y] != 'X') {
 				/*Validate Input*/
 				if (board_input_is_valid(x,y) == 1){
@@ -174,6 +179,7 @@ int main(int argc, const char* argv[] ) {
 					turn++;
 				}
 			}
+			args_assigned = 0; /*reset for next sscanf*/
 		}
 	}
 }

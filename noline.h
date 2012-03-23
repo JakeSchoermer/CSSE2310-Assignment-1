@@ -1,7 +1,7 @@
 #define board_x 5
 #define board_y 5
 
-void setup_board(void);
+void setup_board(int);
 
 void print_board(void);
 
