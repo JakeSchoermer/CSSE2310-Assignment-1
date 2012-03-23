@@ -123,18 +123,7 @@ void cmd_in(int argc, const char* argv[]) {
 		
 		/*PlayerXtype & Player O type*/
 		if ((i==2) || (i==3)) {
-			if ((atoi(argv[i] == 0)) || (atoi(argv[i] == 1)) || (atoi(argv[i] == 2))) {
-				if (i==2) {
-					playerXtype = argv[i];
-				}
-				else {
-					playerOtype = argv[i];
-				}
-			}
-			else {
-				print_err(3);
-				exit(0);
-			}
+			printf("%s\n" argv[i]);
 		}
 		
 		/**/
