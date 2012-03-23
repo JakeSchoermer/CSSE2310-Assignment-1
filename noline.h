@@ -16,3 +16,7 @@ void print_err(int);
 void game_over_status(int);
 
 void cmd_in(int, const char* []);
+
+void print_args(void);
+
+int horizontal_line(int, int, char);
