@@ -20,8 +20,6 @@ char* Xout = "-";
 
 
 void setup_board(int dim) {
-	
-
 	int x,y;
 	for (x=0; x<dim; x++) {
 		for (y=0; y<dim; y++) {
@@ -33,7 +31,6 @@ void setup_board(int dim) {
 
 void print_board(void) {
 	int i,x,y;
-	
 	
 	for (i=0;i<dim;i++)
 		printf("-");
@@ -119,7 +116,7 @@ void cmd_in(int argc, const char* argv[]) {
 		
 		
 		if ((i==1)) {
-			if ((atoi(argv[i])%2!=0)) {
+			if ((pt%2==1) && (pt > 2)) {
 				dim = atoi(argv[i]);
 			}
 			else {
@@ -191,42 +188,41 @@ void print_args(void) {
 }
 
 /*Detects a horizontal line from selection and returns 1 if match, else returns 0*/
-int horizontal_line(int x, int y, char c) {
+int horizontal_line(char ch, int x, int y) {
 	/*if left edge*/
 	if (x == 0) {
-		if ((board[x+1][y] == c) && (board[x+2][y] == c)) {
+		printf("Left Edge\n");
+		if ((board[x+1][y] == ch) && (board[x+2][y] == ch)) {
 			return 1;
 		}
 	}
 	/*if not edge*/
-	else if ((x>0) && (x<dim) {
-		if ((board[x-1][y] == c) && (board[x+1][y] == c)) {
+	else if ((x>0) && (x<dim)) {
+		printf("Not Edge\n");
+		if ((board[x-1][y] == ch) && (board[x+1][y] == ch)) {
 			return 1;
 		}
 		if (x>1) {
-			if ((board[x-1][y] == c) && (board[x-2][y] == c)) {
+			if ((board[x-1][y] == ch) && (board[x-2][y] == ch)) {
 				return 1;
 			}
 		}
 		if (x<dim-1) {
-			if ((board[x+1][y] == c) && (board[x+2][y] == c)) {
+			if ((board[x+1][y] == ch) && (board[x+2][y] == ch)) {
 				return 1;
 			}
 		}
 	}
 	/*if right edge*/
 	else if (x == dim) {
-		if ((board[x-1][y] == c) && (board[x-2][y] == c)) {
+		printf("Right Edge\n");
+		if ((board[x-1][y] == ch) && (board[x-2][y] == ch)) {
 			return 1;
 		}
 	}
 	/*Otherwise*/
 	return 0;
 }
-
-
-
-
 
 
 /*Main*/
@@ -266,7 +262,15 @@ int main(int argc, const char* argv[] ) {
 				if (board_input_is_valid(x,y) == 1){
 					insert_number(get_char(), x, y);
 					print_board();
-					turn++;
+					/*Check for lines*/
+					
+					printf("Horizontal line: %d\n", horizontal_line(get_char(),x ,y));
+					
+					if (horizontal_line(get_char(), x, y) == 1) {
+						end_game(get_char(),1);
+						
+					}			
+ 					turn++;
 				}
 			}
 			args_assigned = 0; /*reset for next sscanf*/

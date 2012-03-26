@@ -19,4 +19,8 @@ void cmd_in(int, const char* []);
 
 void print_args(void);
 
-int horizontal_line(int, int, char);
+int horizontal_line(char, int, int);
+
+int vertical_line(char, int, int);
+
+int diagonal_line(char, int, int);
